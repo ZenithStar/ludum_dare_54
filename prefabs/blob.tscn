@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxt05chw8ig1n"]
+
+[ext_resource type="Script" path="res://scripts/blob.gd" id="1_hhufj"]
+[ext_resource type="SpriteFrames" uid="uid://bxokurpubi6nl" path="res://assets/SlimeGreen/slime_green.tres" id="3_quqv8"]
+
+[node name="Blob" type="CanvasGroup"]
+script = ExtResource("1_hhufj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
+sprite_frames = ExtResource("3_quqv8")
+autoplay = "default"
+frame_progress = 0.714503

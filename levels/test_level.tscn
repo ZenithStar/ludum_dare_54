@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dooibtl1s2uoi" path="res://prefabs/cloudy_skys.tscn" id="1_nitjv"]
 [ext_resource type="Script" path="res://scripts/VisibleCollisionShape2D.gd" id="2_yfwtg"]
-[ext_resource type="Script" path="res://scripts/blob.gd" id="3_xkdu1"]
+[ext_resource type="PackedScene" uid="uid://bxt05chw8ig1n" path="res://prefabs/blob.tscn" id="3_xl8ma"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qqscn"]
 height = 1000.0
@@ -32,6 +32,5 @@ position = Vector2(-496, -496)
 shape = SubResource("CapsuleShape2D_qqscn")
 script = ExtResource("2_yfwtg")
 
-[node name="Blob" type="Node2D" parent="."]
-position = Vector2(3, -772)
-script = ExtResource("3_xkdu1")
+[node name="Blob" parent="." instance=ExtResource("3_xl8ma")]
+position = Vector2(0, -496)
