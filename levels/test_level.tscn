@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://dvaywwt2rfd1h"]
+
+[ext_resource type="PackedScene" uid="uid://dooibtl1s2uoi" path="res://prefabs/cloudy_skys.tscn" id="1_nitjv"]
+[ext_resource type="Script" path="res://scripts/VisibleCollisionShape2D.gd" id="2_yfwtg"]
+[ext_resource type="Script" path="res://scripts/blob.gd" id="3_xkdu1"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qqscn"]
+height = 1000.0
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Clouds" parent="." instance=ExtResource("1_nitjv")]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+rotation = 1.5708
+
+[node name="VisibleCollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CapsuleShape2D_qqscn")
+script = ExtResource("2_yfwtg")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(497, -496)
+
+[node name="VisibleCollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+shape = SubResource("CapsuleShape2D_qqscn")
+script = ExtResource("2_yfwtg")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2(-496, -496)
+
+[node name="VisibleCollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+shape = SubResource("CapsuleShape2D_qqscn")
+script = ExtResource("2_yfwtg")
+
+[node name="Blob" type="Node2D" parent="."]
+position = Vector2(2, -124)
+script = ExtResource("3_xkdu1")
