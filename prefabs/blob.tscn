@@ -10,4 +10,4 @@ script = ExtResource("1_hhufj")
 z_index = 1
 sprite_frames = ExtResource("3_quqv8")
 autoplay = "default"
-frame_progress = 0.714503
+frame_progress = 0.922893

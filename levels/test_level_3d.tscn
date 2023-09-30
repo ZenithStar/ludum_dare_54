@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://dq2mjnwf6capw"]
+
+[ext_resource type="Script" path="res://scripts/RollingBall.gd" id="1_4gqk1"]
+[ext_resource type="Texture2D" uid="uid://dw8ojrie0v2ur" path="res://icon.svg" id="1_auorr"]
+[ext_resource type="Script" path="res://scripts/CameraJoint.gd" id="2_al3sy"]
+
+[sub_resource type="Environment" id="Environment_ugifs"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mlbou"]
+radius = 0.1
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_525wi"]
+albedo_texture = ExtResource("1_auorr")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ugifs")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(10000, 1, 10000)
+
+[node name="RollingBall" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+script = ExtResource("1_4gqk1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RollingBall"]
+shape = SubResource("SphereShape3D_mlbou")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="RollingBall"]
+radius = 0.1
+material = SubResource("StandardMaterial3D_525wi")
+
+[node name="CameraJoint" type="SpringArm3D" parent="RollingBall"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
+collision_mask = 2
+margin = 0.2
+script = ExtResource("2_al3sy")
+
+[node name="Camera3D" type="Camera3D" parent="RollingBall/CameraJoint"]
