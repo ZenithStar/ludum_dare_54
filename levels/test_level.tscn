@@ -33,5 +33,5 @@ shape = SubResource("CapsuleShape2D_qqscn")
 script = ExtResource("2_yfwtg")
 
 [node name="Blob" type="Node2D" parent="."]
-position = Vector2(2, -124)
+position = Vector2(3, -772)
 script = ExtResource("3_xkdu1")
