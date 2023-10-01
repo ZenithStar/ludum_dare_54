@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bku5jslkx4g6c"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5oe0o"]
+
+[node name="PlayBall" type="RigidBody3D"]
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_5oe0o")

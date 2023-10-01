@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://dq2mjnwf6capw"]
+[gd_scene load_steps=11 format=3 uid="uid://dq2mjnwf6capw"]
 
 [ext_resource type="Script" path="res://scripts/RollingBall.gd" id="1_4gqk1"]
 [ext_resource type="Texture2D" uid="uid://dw8ojrie0v2ur" path="res://icon.svg" id="1_auorr"]
 [ext_resource type="Script" path="res://scripts/CameraJoint.gd" id="2_al3sy"]
+[ext_resource type="Script" path="res://scripts/Spawner.gd" id="4_xp4ic"]
 
 [sub_resource type="Environment" id="Environment_ugifs"]
 
@@ -16,6 +17,8 @@ albedo_texture = ExtResource("1_auorr")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gkg5"]
 albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_apxpr"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -79,3 +82,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -1, 0)
 top_level = true
 radius = 0.05
 material = SubResource("StandardMaterial3D_5gkg5")
+
+[node name="Spawner" type="Node3D" parent="."]
+script = ExtResource("4_xp4ic")
+noise = SubResource("FastNoiseLite_apxpr")
