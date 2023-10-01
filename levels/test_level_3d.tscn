@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dq2mjnwf6capw"]
+[gd_scene load_steps=9 format=3 uid="uid://dq2mjnwf6capw"]
 
 [ext_resource type="Script" path="res://scripts/RollingBall.gd" id="1_4gqk1"]
 [ext_resource type="Texture2D" uid="uid://dw8ojrie0v2ur" path="res://icon.svg" id="1_auorr"]
@@ -13,6 +13,9 @@ albedo_texture = ExtResource("1_auorr")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_525wi"]
 albedo_texture = ExtResource("1_auorr")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gkg5"]
+albedo_color = Color(1, 0, 0, 1)
 
 [node name="Node3D" type="Node3D"]
 
@@ -42,8 +45,17 @@ radius = 10.0
 radial_segments = 32
 rings = 16
 
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+operation = 2
+radius = 0.75
+height = 10.0
+
 [node name="RollingBall" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -1, 0)
+continuous_cd = true
+max_contacts_reported = 8
+contact_monitor = true
 script = ExtResource("1_4gqk1")
 force_factor = 100.0
 
@@ -61,3 +73,9 @@ margin = 0.2
 script = ExtResource("2_al3sy")
 
 [node name="Camera3D" type="Camera3D" parent="RollingBall/CameraJoint"]
+
+[node name="ForceVector" type="CSGCylinder3D" parent="RollingBall"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -1, 0)
+top_level = true
+radius = 0.05
+material = SubResource("StandardMaterial3D_5gkg5")
