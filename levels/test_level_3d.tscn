@@ -3,22 +3,24 @@
 [ext_resource type="Script" path="res://scripts/RollingBall.gd" id="1_4gqk1"]
 [ext_resource type="Texture2D" uid="uid://dw8ojrie0v2ur" path="res://icon.svg" id="1_auorr"]
 [ext_resource type="Script" path="res://scripts/CameraJoint.gd" id="2_al3sy"]
-[ext_resource type="Script" path="res://scripts/Spawner.gd" id="4_xp4ic"]
+[ext_resource type="Script" path="res://scripts/SpawnerSpawner.gd" id="5_w1f08"]
 
 [sub_resource type="Environment" id="Environment_ugifs"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_reqr8"]
 albedo_texture = ExtResource("1_auorr")
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_40sks"]
+bounce = 0.5
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_mlbou"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_525wi"]
 albedo_texture = ExtResource("1_auorr")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5gkg5"]
-albedo_color = Color(1, 0, 0, 1)
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_apxpr"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_m43r8"]
+margin = 0.5
+radius = 0.2
 
 [node name="Node3D" type="Node3D"]
 
@@ -26,63 +28,58 @@ albedo_color = Color(1, 0, 0, 1)
 environment = SubResource("Environment_ugifs")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+shadow_enabled = true
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-light_color = Color(0, 1, 0, 1)
 light_energy = 10.0
-omni_range = 10.0
+shadow_enabled = true
+omni_range = 100.0
+omni_attenuation = 0.5
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
 material_override = SubResource("StandardMaterial3D_reqr8")
 use_collision = true
+collision_layer = 15
+collision_mask = 15
 
 [node name="CSGSphere3D2" type="CSGSphere3D" parent="CSGCombiner3D"]
-radius = 10.0
-radial_segments = 32
-rings = 16
+radius = 100.0
+radial_segments = 64
+rings = 32
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 operation = 2
-radius = 10.0
-radial_segments = 32
-rings = 16
-
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGCombiner3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
-operation = 2
-radius = 0.75
-height = 10.0
+radius = 80.0
+radial_segments = 64
+rings = 32
 
 [node name="RollingBall" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 55, -55, 0)
+physics_material_override = SubResource("PhysicsMaterial_40sks")
 continuous_cd = true
 max_contacts_reported = 8
 contact_monitor = true
 script = ExtResource("1_4gqk1")
-force_factor = 100.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RollingBall"]
 shape = SubResource("SphereShape3D_mlbou")
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="RollingBall"]
+visibility_range_begin = 3.0
+visibility_range_begin_margin = 2.0
+visibility_range_fade_mode = 1
+radial_segments = 64
+rings = 32
 material = SubResource("StandardMaterial3D_525wi")
 
 [node name="CameraJoint" type="SpringArm3D" parent="RollingBall"]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
 collision_mask = 2
+shape = SubResource("SphereShape3D_m43r8")
 spring_length = 5.0
-margin = 0.2
 script = ExtResource("2_al3sy")
 
 [node name="Camera3D" type="Camera3D" parent="RollingBall/CameraJoint"]
 
-[node name="ForceVector" type="CSGCylinder3D" parent="RollingBall"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -1, 0)
-top_level = true
-radius = 0.05
-material = SubResource("StandardMaterial3D_5gkg5")
-
-[node name="Spawner" type="Node3D" parent="."]
-script = ExtResource("4_xp4ic")
-noise = SubResource("FastNoiseLite_apxpr")
+[node name="SpawnerSpawner" type="Node3D" parent="."]
+script = ExtResource("5_w1f08")

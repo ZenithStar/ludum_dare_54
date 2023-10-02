@@ -7,21 +7,22 @@ func _ready():
 	set_as_top_level(true)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 @export_category("Zoom")
-@export var zoom_speed: float = 2.0 ** (1.0 / 20.0)
+@export var zoom_speed: float = 2.0 ** (1.0 / 10.0)
 @export var joy_zoom_speed: float = 8.0
 @export var zoom_ease_duration = 0.25
-@export var zoom_clamp_min: float = 2.0
+@export var zoom_clamp_min: float = 0.1
 @export var zoom_clamp_max: float = 10.0
-@onready var zoom_setpoint: float = spring_length:
+@export var default_length: float = 5.0
+@onready var zoom_setpoint: float = 1.0:
 	get:
 		return zoom_setpoint
 	set(value):
 		zoom_setpoint = clamp(value, zoom_clamp_min, zoom_clamp_max)
-		create_tween().tween_property(self, "spring_length", zoom_setpoint, zoom_ease_duration)
+		create_tween().tween_property(self, "spring_length", zoom_setpoint * default_length, zoom_ease_duration)
 
 func rotate_camera(input: Vector2):
 	rotation_degrees.x += -input.y
-	rotation_degrees.x = clamp(rotation_degrees.x, -90.0, 30.0)
+	rotation_degrees.x = clamp(rotation_degrees.x, -90.0, 60.0)
 	#rotation = Quaternion.from_euler(Vector3.UP * (event.relative.x * mouse_sensitivity)) * rotation
 	rotation_degrees.y += -input.x
 	rotation_degrees.y = wrapf(rotation_degrees.y, 0.0, 360.0)
@@ -32,6 +33,9 @@ func _unhandled_input(event: InputEvent):
 		rotate_camera(mouse_camera)
 	if event is InputEventMouseButton:
 		match event.button_index:
+			MOUSE_BUTTON_WHEEL_LEFT:
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			MOUSE_BUTTON_WHEEL_UP:
 				zoom_setpoint /= zoom_speed
 			MOUSE_BUTTON_WHEEL_DOWN:

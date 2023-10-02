@@ -1,8 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://bku5jslkx4g6c"]
+[gd_scene load_steps=3 format=3 uid="uid://cs40l1lrxcrqx"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_qgerw"]
+bounce = 0.5
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5oe0o"]
 
 [node name="PlayBall" type="RigidBody3D"]
+physics_material_override = SubResource("PhysicsMaterial_qgerw")
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="."]
 
