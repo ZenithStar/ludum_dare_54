@@ -1,6 +1,8 @@
 class_name Spawner extends Node3D
 
 const ball_class : PackedScene = preload("res://prefabs/play_ball.tscn")
+const cel_shader : Shader = preload("res://cel-shader/cel-shader-base.gdshader")
+const cel_shader_outline : Shader = preload("res://cel-shader/outline.gdshader")
 @export var radius_upper_limit: float = 79.0
 @export var radius_lower_limit: float = 70.0
 @export var exit_force_range: float = 10000.0
@@ -13,10 +15,25 @@ const ball_class : PackedScene = preload("res://prefabs/play_ball.tscn")
 @onready var elapsed_offsets: Array[float] = [randf_range(0.0, 1000000.0), randf_range(0.0, 1000000.0), randf_range(0.0, 1000000.0), randf_range(0.0, 1000000.0)]
 @export var good_ratio: float = 0.2
 var display: CSGTorus3D
+var outline_material: ShaderMaterial
+var goodball_material: ShaderMaterial
+var badball_material: ShaderMaterial 
 func _ready():
+	outline_material = ShaderMaterial.new()
+	outline_material.shader = cel_shader_outline
+	goodball_material = ShaderMaterial.new()
+	goodball_material.shader = cel_shader
+	goodball_material.next_pass = outline_material
+	goodball_material.set_shader_parameter("color",Color.GREEN)
+	badball_material = ShaderMaterial.new()
+	badball_material.shader = cel_shader
+	badball_material.next_pass = outline_material
+	badball_material.set_shader_parameter("color",Color.CRIMSON)
 	display = CSGTorus3D.new()
-	display.material = StandardMaterial3D.new()
-	display.material.albedo_color = Color.BLUE
+	display.material = ShaderMaterial.new()
+	display.material.shader = cel_shader
+	display.material.next_pass = outline_material
+	display.material.set_shader_parameter("color",Color.BLUE)
 	add_child(display)
 
 func _physics_process(delta):
@@ -35,14 +52,10 @@ func _physics_process(delta):
 		ball.add_to_group("Consumable")
 		if randf() > good_ratio:
 			ball.add_to_group("GoodBall")
-			var material = StandardMaterial3D.new()
-			material.albedo_color = Color.GREEN
-			ball.get_node("CSGSphere3D").material = material
+			ball.get_node("CSGSphere3D").material = goodball_material
 		else:
 			ball.add_to_group("BadBall")
-			var material = StandardMaterial3D.new()
-			material.albedo_color = Color.CRIMSON
-			ball.get_node("CSGSphere3D").material = material
+			ball.get_node("CSGSphere3D").material = badball_material
 		add_child(ball)
 		ball.apply_central_force(Vector3(cos(angle+(PI/2)), 0.0, sin(angle+(PI/2))) * exit_force_range * noise.get_noise_1d(elapsed+elapsed_offsets[3]))
 

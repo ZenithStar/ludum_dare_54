@@ -33,9 +33,12 @@ func _unhandled_input(event: InputEvent):
 		rotate_camera(mouse_camera)
 	if event is InputEventMouseButton:
 		match event.button_index:
-			MOUSE_BUTTON_WHEEL_LEFT:
-				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			MOUSE_BUTTON_LEFT:
+				if event.pressed:
+					if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
+						Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+					elif Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+						Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			MOUSE_BUTTON_WHEEL_UP:
 				zoom_setpoint /= zoom_speed
 			MOUSE_BUTTON_WHEEL_DOWN:
