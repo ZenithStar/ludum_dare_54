@@ -45,11 +45,11 @@ func _integrate_forces(state):
 			if object.is_in_group("Consumable"):
 				object.queue_free()
 				if object.is_in_group("GoodBall"):
-					radius = RollingBall.sphere_volume_to_radius (RollingBall.sphere_radius_to_volume(radius) + RollingBall.sphere_radius_to_volume(0.5))
-					Hud.score += 1
+					radius = RollingBall.sphere_volume_to_radius (RollingBall.sphere_radius_to_volume(radius) + RollingBall.sphere_radius_to_volume(0.5) * object.size)
+					Hud.score += 1 * object.size
 				if object.is_in_group("BadBall"):
-					radius = RollingBall.sphere_volume_to_radius (RollingBall.sphere_radius_to_volume(radius) - (RollingBall.sphere_radius_to_volume(0.5) * 10) )
-					Hud.score -= 10
+					radius = RollingBall.sphere_volume_to_radius (RollingBall.sphere_radius_to_volume(radius) - (RollingBall.sphere_radius_to_volume(0.5) * 10 * object.size) )
+					Hud.score -= 10 * object.size
 					var explode_force = state.get_contact_local_normal(x) * force_factor * 30.0 * RollingBall.sphere_radius_to_volume(radius)
 					apply_central_force(explode_force)
 			mean_normal += state.get_contact_impulse(x)
